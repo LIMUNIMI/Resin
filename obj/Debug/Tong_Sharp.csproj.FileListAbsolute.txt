@@ -1,0 +1,81 @@
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.csprojAssemblyReference.cache
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\MainWindow.g.cs
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\App.g.cs
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp_MarkupCompile.cache
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp_MarkupCompile.lref
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Tobii.EyeX.Client.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Tong_Sharp.exe.config
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Tong_Sharp.exe
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Tong_Sharp.pdb
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\NAudio.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\NeeqDMIs.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\RawInputProcessor.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Tobii.Interaction.Net.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Tobii.Interaction.Model.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\EyeTribe.ClientSdk.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\ArduinoDriver.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\ArduinoUploader.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Newtonsoft.Json.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\NLog.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\IntelHexFormatReader.dll
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\NeeqDMIs.pdb
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\NeeqDMIs.dll.config
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\NAudio.xml
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\Newtonsoft.Json.xml
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\bin\Debug\NLog.xml
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\MainWindow.baml
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.g.resources
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.Properties.Resources.resources
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.csproj.GenerateResource.cache
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.csproj.CoreCompileInputs.cache
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.csproj.CopyComplete
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.exe
+C:\root_X542U\Frammenti software\Visual Studio Projects\Tong_Sharp\obj\Debug\Tong_Sharp.pdb
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Tobii.EyeX.Client.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Tong_Sharp.exe.config
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Tong_Sharp.exe
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Tong_Sharp.pdb
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\NAudio.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\NeeqDMIs.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\RawInputProcessor.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Tobii.Interaction.Net.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Tobii.Interaction.Model.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\EyeTribe.ClientSdk.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\ArduinoDriver.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\ArduinoUploader.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Newtonsoft.Json.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\NLog.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\IntelHexFormatReader.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\NeeqDMIs.pdb
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\NeeqDMIs.dll.config
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\NAudio.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Newtonsoft.Json.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\NLog.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.csprojAssemblyReference.cache
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\MainWindow.g.cs
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\App.g.cs
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp_MarkupCompile.cache
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\MainWindow.baml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.g.resources
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.Properties.Resources.resources
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.csproj.GenerateResource.cache
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.csproj.CoreCompileInputs.cache
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.csproj.CopyComplete
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.exe
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\obj\Debug\Tong_Sharp.pdb
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\CsvHelper.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Microsoft.Bcl.HashCode.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Buffers.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Memory.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\CsvHelper.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\Microsoft.Bcl.HashCode.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Buffers.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Memory.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\neequ\OneDrive\Documenti\GitHub\TongSharp\bin\Debug\System.Threading.Tasks.Extensions.xml

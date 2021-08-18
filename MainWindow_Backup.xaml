@@ -1,0 +1,80 @@
+﻿<Window x:Class="Tong_Sharp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tong_Sharp"
+        mc:Ignorable="d"
+        Title="Tong" Height="450" Width="800" SizeChanged="MainWindow_SizeChanged">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- UPPER SECTION, PLOT AND CONTROLS -->
+        <Grid Grid.Row ="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="12*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <ListBox Grid.Row="0" Grid.RowSpan="1" x:Name="lstWaveInSoundCards" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="lstWaveInSoundCards_SelectionChanged"/>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" x:Name="btnStart" Content="Start" Click="btnStart_Click"/>
+                    <Button Grid.Column="1" x:Name="btnStop" Content="Stop" Click="btnStop_Click"/>
+                </Grid>
+                <Label Grid.Row="3" x:Name="lblPeaks" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                <ListBox Grid.Row="4" Grid.RowSpan="1" x:Name="lstWaveOutSoundCards" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="lstWaveOutSoundCards_SelectionChanged"/>
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnCenter" Grid.Column="0" Content="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="btnCenter_Click"/>
+                    <Label x:Name="lblHeadTracker" Grid.Column="1" Content="Yaw Pitch Roll" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                </Grid>
+                <ListBox Grid.Row="6" Grid.RowSpan="1" x:Name="lstComSensorPort" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="comSensorPort_SelectionChanged"/>
+
+                <Grid Grid.Row="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnMidiPortMinus" Grid.Column="0" Content="-" Click="btnMidiPortMinus_Click"/>
+                    <Label x:Name="lblMidiPort" Grid.Column="1" Content="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+                    <Button x:Name="btnMidiPortPlus" Grid.Column="2" Content="+" Click="btnMidiPortPlus_Click"/>
+                </Grid>
+                <Button Grid.Row="8" x:Name="btnTest" Content="Test" Click="btnTest_Click"/>
+            </Grid>
+
+            <Canvas Grid.Column="1" x:Name="cnvsPlot" Background="Black" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+        </Grid>
+
+        <!-- LOWER SECTION, KEYS -->
+        <Grid x:Name="gridKeys" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+        </Grid>
+    </Grid>
+    
+</Window>

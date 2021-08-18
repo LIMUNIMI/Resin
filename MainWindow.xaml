@@ -1,0 +1,245 @@
+﻿<Window x:Class="Resin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Tong" Width="1440" Height="810" WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized" SizeChanged="MainWindow_SizeChanged">
+    <!-- MAIN GRID -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="11*" />
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/Backgrounds/DarkWood.png" TileMode="Tile" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="78*" />
+            <RowDefinition Height="16*" />
+        </Grid.RowDefinitions>
+
+        <!-- ROW: SETTINGS AND PLOT LABELS -->
+        <Button x:Name="btnInit" Content="Init" Click="btnInit_Click" Margin="0,3,0,3.4" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40" Width="70" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontWeight="Bold" FontSize="19" Background="DarkGreen" />
+        <Label Grid.Row="0" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Magneto" FontSize="30" Foreground="White" Height="Auto" Width="Auto" Grid.Column="1" Margin="28,0,676,0.4" />
+        <Button x:Name="btnExit" Content="X" Click="btnExit_Click" Margin="0,3,5,3.4" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="40" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontWeight="Bold" FontSize="19" Background="DarkRed" Grid.Column="1" />
+        <Button HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row ="0" x:Name="btnTest" Content="Test" Height="30" Width="90" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Margin="80,9,0,7.4" Click="btnTest_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+            </Button.Background>
+        </Button>
+        <!-- ROW: MID SECTION, PLOT AND CONTROLS -->
+        <Grid Grid.ColumnSpan="2" Margin="0,46,0,0.2" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="274*" />
+                <ColumnDefinition Width="1624*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- BORDER: SETTINGS -->
+            <Border Grid.Column="0" BorderThickness="2" BorderBrush="White" Margin="2,2,2.4,2.4">
+                <Border.Background>
+                    <ImageBrush ImageSource="Images/Backgrounds/LightWood.jpg" TileMode="Tile" />
+                </Border.Background>
+
+                <StackPanel Orientation="Vertical">
+
+                    <Label Content="Audio Input" Foreground="Black" FontSize="15" FontWeight="Bold" FontFamily="SegoeUI" Margin="2,2,2,2" />
+
+                    <ComboBox x:Name="lstWaveInSoundCards" Height="22" SelectionChanged="lstWaveInSoundCards_SelectionChanged" Margin="2,2,2,2" />
+
+                    <Label Content="Audio Output" Foreground="Black" FontSize="15" FontWeight="Bold" FontFamily="SegoeUI" Margin="2,2,2,2" />
+
+                    <ComboBox x:Name="lstWaveOutSoundCards" Height="22" SelectionChanged="lstWaveOutSoundCards_SelectionChanged" Margin="2,2,2,2" />
+
+                    <Label Content="MIDI Output" Foreground="Black" FontSize="15" FontWeight="Bold" FontFamily="SegoeUI" Margin="2,2,2,2" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnMidiPortMinus" Content="-" Click="btnMidiPortMinus_Click" Height="30" Width="30" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="19" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                        <Label x:Name="lblMidiPort" Content="-" Height="30" Width="30" Foreground="LightCoral" FontFamily="Digital-7 Italic" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" BorderBrush="White" BorderThickness="2" />
+                        <Button x:Name="btnMidiPortPlus" Content="+" Click="btnMidiPortPlus_Click" Height="30" Width="30" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="19" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+
+                    <Label Content="FFT info" Foreground="Black" FontSize="15" FontWeight="Bold" FontFamily="SegoeUI" Margin="2,2,2,2" />
+
+                    <Border Background="Black" BorderBrush="White" BorderThickness="2" Margin="2,2,2,2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Peak X = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="0" Content="-" Foreground="LightCoral" Name="lblPeakX" />
+                            <Label Grid.Column="0" Grid.Row="1" Content="Peak X (smth) = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="1" Content="-" Foreground="LightCoral" Name="lblPeakXsmooth" />
+                            <Label Grid.Column="0" Grid.Row="2" Content="Peak Y = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="2" Content="-" Foreground="LightCoral" Name="lblPeakY" />
+                            <Label Grid.Column="0" Grid.Row="3" Content="Note = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="3" Content="-" Foreground="LightCoral" Name="lblNote" />
+                        </Grid>
+                    </Border>
+
+                    <Label Content="Head Tracker" Foreground="Black" FontSize="15" FontWeight="Bold" FontFamily="SegoeUI" Margin="2,2,2,2" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnCalibrateHeadTracker" Content="Calibrate" Height="30" Width="90" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Click="btnCenter_Click" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="btnHTportM" Content="&lt;" Height="30" Width="30" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="19" Click="btnHTportM_Click" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+
+                        <Label x:Name="lblHTport" Content="-" Height="30" Width="30" Foreground="LightCoral" FontFamily="Digital-7 Italic" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" BorderBrush="White" BorderThickness="2" />
+                        <Button x:Name="btnHTportP" Content="&gt;" Height="30" Width="30" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="19" Click="btnHTportP_Click" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+
+                    <Border Background="Black" BorderBrush="White" BorderThickness="2" Margin="2,2,2,2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Pitch = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="0" Content="-" Foreground="LightCoral" Name="lblHTpitch" />
+                            <Label Grid.Column="0" Grid.Row="1" Content="Yaw = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="1" Content="-" Foreground="LightCoral" Name="lblHTyaw" />
+                            <Label Grid.Column="0" Grid.Row="2" Content="Roll = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="2" Content="-" Foreground="LightCoral" Name="lblHTroll" />
+                            <Label Grid.Column="0" Grid.Row="3" Content="Speed = " Foreground="White" />
+                            <Label Grid.Column="1" Grid.Row="3" Content="-" Foreground="LightCoral" Name="lblHTspeed" />
+                        </Grid>
+                    </Border>
+
+                    <Label Content="Switches" Foreground="Black" FontSize="15" FontWeight="Bold" FontFamily="SegoeUI" Margin="2,2,2,2" />
+
+                    <Grid Margin="2,2,2,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <CheckBox x:Name="cbxPlaySines" Content="Play sines" Height="20" FontWeight="Bold" Click="cbxPlaySines_Click" Checked="cbxPlaySines_Checked" />
+                            <CheckBox x:Name="cbxAudioIn" Content="Audio in" Height="20" FontWeight="Bold" Click="cbxAudioIn_Click" />
+                            <CheckBox x:Name="cbxPlot" Content="Plot" Height="20" FontWeight="Bold" Checked="cbxPlot_Checked" Unchecked="cbxPlot_Unchecked" />
+                            <CheckBox x:Name="cbxHeadtracker" Content="HeadTrack" Height="20" FontWeight="Bold" Click="cbxHeadtracker_Click" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                            <Slider x:Name="sldAudioOutVolume" Foreground="Black" HorizontalAlignment="Stretch" Height="20" Minimum="0" Maximum="100" Interval="1" ValueChanged="sldAudioOutVolume_ValueChanged" />
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="L"  Width="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" />
+                                <Slider x:Name="sldPanning" Value ="0" Width="50" IsSnapToTickEnabled="true" Foreground="Black" HorizontalAlignment="Center" Height="20" Minimum="-1" Maximum="1" Interval="1" ValueChanged="sldPanning_ValueChanged" Grid.ColumnSpan="3" />
+                                <Label Content="R" Width="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" />
+                            </StackPanel>
+                            <CheckBox x:Name="cbxMonitor" Content="Monitor" Height="20" FontWeight="Bold" Click="cbxMonitor_Click" />
+                            <Slider x:Name="sldCalibSetpoint" Foreground="Black" HorizontalAlignment="Stretch" Height="20" Minimum="0" Maximum="1000" ValueChanged="sldCalibSetpoint_ValueChanged" />
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnCalibrateSines" Content="Major" Height="30" Width="70" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Click="btnMajorScale_Click" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Canvas panel -->
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*" />
+                    <RowDefinition Height="90*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="127*" />
+                    <ColumnDefinition Width="27*"/>
+                    <ColumnDefinition Width="154*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="2" BorderBrush="White" Margin="2,2,2,2.6">
+                    <Border.Background>
+                        <ImageBrush ImageSource="Images/Backgrounds/LightWood.jpg" TileMode="Tile" />
+                    </Border.Background>
+                    <WrapPanel Orientation="Horizontal">
+                        <Button x:Name="btnSineCal" Content="Calib" Height="30" Width="70" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Click="btnSineCal_EnergyClick" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                        <Label x:Name="lblSineCalibrationLed" Height="30" Width="30" Background="Black" HorizontalContentAlignment="Center" BorderBrush="White" BorderThickness="2" />
+                        <Label x:Name="lblAllNotes" Content="All Notes:" FontSize="15" FontWeight="Bold" FontFamily="SegoeUI" Height="30" Width="83" Background="Transparent" HorizontalContentAlignment="Center" BorderBrush="Transparent" BorderThickness="2" />
+                        <Border x:Name="brdNanRadio" Height="30" Width="30" Background="SandyBrown" BorderBrush="White" BorderThickness="2" />
+
+                        <Button x:Name="btnSaveCalib" Content="Save calib" Height="30" Width="110" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Click="btnSaveCalib_Click" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="btnLoadCalib" Content="Load calib" Height="30" Width="110" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Click="btnLoadCalib_Click" Margin="2,2,2,2">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
+                            </Button.Background>
+                        </Button>
+                    </WrapPanel>
+                </Border>
+
+                <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" BorderThickness="2" BorderBrush="White" Margin="2,2.4,2,2.6">
+                    <Canvas x:Name="cnvsPlot" Background="Black" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+                </Border>
+
+                <!--<Border Grid.Column="1" Grid.Row="1" BorderThickness="2" BorderBrush="White" Margin="1.6,2,2,2.4" Grid.ColumnSpan="1">
+                    <Canvas x:Name="cnvsNotesCircle" Background="Black" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+                </Border>-->
+            </Grid>
+        </Grid>
+
+        <!-- LOWER SECTION, KEYS -->
+        <Border Grid.Row="2" BorderThickness="2" BorderBrush="White" Margin="2,1.8,2,1.6" Grid.ColumnSpan="2">
+            <Border.Background>
+                <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" />
+            </Border.Background>
+
+            <Grid x:Name="gridKeys">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
