@@ -11,7 +11,7 @@ namespace Resin.Modules.NotesGrid
         public KeyRadioButton(KeyLabel keyLabel)
         {
             KeyLabel = keyLabel;
-            GroupName = G.CalibrationRadioButtonsGroup;
+            GroupName = R.CalibrationRadioButtonsGroup;
             this.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             this.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             this.Background = new SolidColorBrush(Colors.SandyBrown);

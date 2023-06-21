@@ -18,9 +18,9 @@ namespace Resin.Modules.NotesGrid
         {
             Note = note;
             Content = note.ToStandardString();
-            Foreground = G.KeyLabelFontColor;
+            Foreground = R.KeyLabelFontColor;
             FontWeight = FontWeights.Bold;
-            Background = G.KeyLabelOffBrush;
+            Background = R.KeyLabelOffBrush;
             this.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.VerticalAlignment = VerticalAlignment.Stretch;
             this.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -32,10 +32,10 @@ namespace Resin.Modules.NotesGrid
             switch (value)
             {
                 case true:
-                    Background = G.KeyLabelOnBrush;
+                    Background = R.KeyLabelOnBrush;
                     break;
                 case false:
-                    Background = G.KeyLabelOffBrush;
+                    Background = R.KeyLabelOffBrush;
                     break;
                 default:
                     break;

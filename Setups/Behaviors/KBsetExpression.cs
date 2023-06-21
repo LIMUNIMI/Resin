@@ -28,7 +28,7 @@ namespace Resin.Setups.Behaviors
                 {
                     if (e.KeyPressState == KeyPressState.Down)
                     {
-                        G.TB.Keyboard_SetExpressionToZero();
+                        R.DMIbox.Keyboard_SetExpressionToZero();
                     }
                 }
             }

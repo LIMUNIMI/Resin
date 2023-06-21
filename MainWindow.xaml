@@ -25,7 +25,7 @@
         <Button x:Name="btnInit" Content="Init" Click="btnInit_Click" Margin="0,3,0,3.4" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40" Width="70" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontWeight="Bold" FontSize="19" Background="DarkGreen" />
         <Label Grid.Row="0" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Magneto" FontSize="30" Foreground="White" Height="Auto" Width="Auto" Grid.Column="1" Margin="28,0,676,0.4" />
         <Button x:Name="btnExit" Content="X" Click="btnExit_Click" Margin="0,3,5,3.4" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="40" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontWeight="Bold" FontSize="19" Background="DarkRed" Grid.Column="1" />
-        <Button HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row ="0" x:Name="btnTest" Content="Test" Height="30" Width="90" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Margin="80,9,0,7.4" Click="btnTest_Click">
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row ="0" x:Name="btnTest" Content="Test" Height="30" Width="90" BorderBrush="White" BorderThickness="2" Foreground="White" FontFamily="Magneto" FontSize="16" Margin="80,10,0,0" Click="btnTest_Click">
             <Button.Background>
                 <ImageBrush ImageSource="Images/Backgrounds/MidWood.png" TileMode="Tile" Stretch="None" />
             </Button.Background>

@@ -31,7 +31,7 @@ namespace Resin
             ScanWaveOutSoundCards();
 
             dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = new TimeSpan(100000);
+            dispatcherTimer.Interval = new TimeSpan(1000);
             dispatcherTimer.Tick += DispatcherTimer_Tick;
         }
 
@@ -46,7 +46,7 @@ namespace Resin
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            G.TB.FFTplotModule.UpdateFrame();
+            R.DMIbox.FFTplotModule.UpdateFrame();
             UpdateLabels();
             UpdateKeysGrid();
             UpdateCalibrationStatus();
@@ -61,33 +61,33 @@ namespace Resin
         {
             lblHTport.Content = HTport.ToString();
 
-            G.TB.HeadTrackerModule.Connect(HTport);
-            if (G.TB.HeadTrackerModule.IsConnectionOk)
+            R.DMIbox.HeadTrackerModule.Connect(HTport);
+            if (R.DMIbox.HeadTrackerModule.IsConnectionOk)
             {
-                lblHTport.Foreground = G.GuiOkBrush;
+                lblHTport.Foreground = R.GuiOkBrush;
             }
             else
             {
-                lblHTport.Foreground = G.GuiFailBrush;
+                lblHTport.Foreground = R.GuiFailBrush;
             }
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (isSetup)
-                G.TB.FFTplotModule.RemapCanvas();
+                R.DMIbox.FFTplotModule.RemapCanvas();
         }
 
         private void MidiPortChanged()
         {
-            lblMidiPort.Content = G.TB.MidiModule.OutDevice.ToString();
-            if (G.TB.MidiModule.IsMidiOk())
+            lblMidiPort.Content = R.DMIbox.MidiModule.OutDevice.ToString();
+            if (R.DMIbox.MidiModule.IsMidiOk())
             {
-                lblMidiPort.Foreground = G.GuiOkBrush;
+                lblMidiPort.Foreground = R.GuiOkBrush;
             }
             else
             {
-                lblMidiPort.Foreground = G.GuiFailBrush;
+                lblMidiPort.Foreground = R.GuiFailBrush;
             }
         }
 
@@ -118,8 +118,8 @@ namespace Resin
 
         private void sldCalibSetpoint_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            G.TB.AudioModule.CalibrationSetpoint = sldCalibSetpoint.Value;
-            G.TB.FFTplotModule.CalibrationSetpoint = G.TB.AudioModule.CalibrationSetpoint;
+            R.DMIbox.AudioModule.CalibrationSetpoint = sldCalibSetpoint.Value;
+            R.DMIbox.FFTplotModule.CalibrationSetpoint = R.DMIbox.AudioModule.CalibrationSetpoint;
         }
 
         private void UpdateCalibrationStatus()
@@ -127,11 +127,11 @@ namespace Resin
             switch (calibrationStatus)
             {
                 case SineCalibrationStatuses.Wait:
-                    lblSineCalibrationLed.Background = G.GuiFailBrush;
+                    lblSineCalibrationLed.Background = R.GuiFailBrush;
                     break;
 
                 case SineCalibrationStatuses.Finish:
-                    lblSineCalibrationLed.Background = G.GuiOkBrush;
+                    lblSineCalibrationLed.Background = R.GuiOkBrush;
                     break;
             }
         }
@@ -143,35 +143,35 @@ namespace Resin
 
         private void UpdateKeysGrid()
         {
-            G.TB.NoteKeysModule.SetOnlyALabel(G.TB.GetNoteMoreEnergeticData().MidiNote);
+            R.DMIbox.NoteKeysModule.SetOnlyALabel(R.DMIbox.GetNoteMoreEnergeticData().MidiNote);
         }
 
         private void UpdateLabels()
         {
             if (monitorEnabled)
             {
-                lblPeakX.Content = G.TB.FFTplotModule.PeakRealX.ToString();
-                lblPeakXsmooth.Content = G.TB.FFTplotModule.PeakSmoothX.ToString();
-                lblPeakY.Content = G.TB.FFTplotModule.PeakRealY.ToString();
-                lblNote.Content = G.TB.PitchRecognizerModule.BinToAnyMidiNote(G.TB.FFTplotModule.PeakRealX);
+                lblPeakX.Content = R.DMIbox.FFTplotModule.PeakRealX.ToString();
+                lblPeakXsmooth.Content = R.DMIbox.FFTplotModule.PeakSmoothX.ToString();
+                lblPeakY.Content = R.DMIbox.FFTplotModule.PeakRealY.ToString();
+                lblNote.Content = R.DMIbox.PitchRecognizerModule.BinToAnyMidiNote(R.DMIbox.FFTplotModule.PeakRealX);
 
-                lblHTpitch.Content = G.TB.HeadTrackerModule.Data.TranspPitch.ToString();
-                lblHTyaw.Content = G.TB.HeadTrackerModule.Data.TranspYaw.ToString();
-                lblHTroll.Content = G.TB.HeadTrackerModule.Data.TranspRoll.ToString();
-                lblHTspeed.Content = G.TB.Mon_Speed.ToString();
+                lblHTpitch.Content = R.DMIbox.HeadTrackerModule.Data.CenteredPosition.Pitch.ToString();
+                lblHTyaw.Content = R.DMIbox.HeadTrackerModule.Data.CenteredPosition.Yaw.ToString();
+                lblHTroll.Content = R.DMIbox.HeadTrackerModule.Data.CenteredPosition.Roll.ToString();
+                lblHTspeed.Content = R.DMIbox.Mon_Speed.ToString();
             }
         }
 
         private void UpdateNotesGridSliders()
         {
-            G.TB.NoteKeysModule.UpdateAllGainSliders();
+            R.DMIbox.NoteKeysModule.UpdateAllGainSliders();
         }
 
         private void UpdateWaveOutSlider()
         {
             if (isSetup)
             {
-                sldAudioOutVolume.Value = G.TB.AudioModule.WaveOutMasterVolume * 100f;
+                sldAudioOutVolume.Value = R.DMIbox.AudioModule.WaveOutMasterVolume * 100f;
             }
         }
 
@@ -183,7 +183,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.HeadTrackerModule.Data.CalibrateCenter();
+                R.DMIbox.HeadTrackerModule.Data.SetCenterToCurrentPosition();
             }
         }
 
@@ -224,14 +224,14 @@ namespace Resin
                 UpdateHTPortLabel();
                 UpdateWaveOutSlider();
 
-                btnInit.Background = G.GuiDisabledBackgroundBrush;
-                btnInit.Foreground = G.GuiDisabledForegroundBrush;
+                btnInit.Background = R.GuiDisabledBackgroundBrush;
+                btnInit.Foreground = R.GuiDisabledForegroundBrush;
             }
         }
 
         private void btnLoadCalib_Click(object sender, RoutedEventArgs e)
         {
-            G.TB.AudioModule.LoadCalibration();
+            R.DMIbox.AudioModule.LoadCalibration();
         }
 
         private void btnMajorScale_Click(object sender, RoutedEventArgs e)
@@ -241,14 +241,14 @@ namespace Resin
                 var notes = Enum.GetValues(typeof(MidiNotes));
                 Scale CmajorScale = ScalesFactory.Cmaj;
 
-                G.TB.NoteKeysModule.ResetAllLabels();
+                R.DMIbox.NoteKeysModule.ResetAllLabels();
 
                 foreach (MidiNotes note in notes)
                 {
                     if (note != MidiNotes.NaN)
                         if (CmajorScale.IsInScale(note.ToAbsNote()))
                         {
-                            G.TB.NoteKeysModule.SetCheckBox(note);
+                            R.DMIbox.NoteKeysModule.SetCheckBox(note);
                         }
                 }
             }
@@ -258,7 +258,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.MidiModule.OutDevice--;
+                R.DMIbox.MidiModule.OutDevice--;
                 MidiPortChanged();
             }
         }
@@ -267,14 +267,14 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.MidiModule.OutDevice++;
+                R.DMIbox.MidiModule.OutDevice++;
                 MidiPortChanged();
             }
         }
 
         private void btnSaveCalib_Click(object sender, RoutedEventArgs e)
         {
-            G.TB.AudioModule.SaveCalibration();
+            R.DMIbox.AudioModule.SaveCalibration();
         }
 
         private void btnSineCal_EnergyClick(object sender, RoutedEventArgs e)
@@ -282,50 +282,54 @@ namespace Resin
             switch (isCalibratingEnergy)
             {
                 case false:
-                    G.TB.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.All;
+                    R.DMIbox.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.All;
                     btnSineCal.Background = new SolidColorBrush(Colors.DarkRed);
                     isCalibratingEnergy = true;
-                    G.TB.AudioModule.StartEnergyCalibration();
+                    R.DMIbox.AudioModule.StartEnergyCalibration();
                     break;
 
                 case true:
-                    G.TB.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.MoreEnergetic;
+                    R.DMIbox.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.MoreEnergetic;
                     btnSineCal.Background = new SolidColorBrush(Colors.Black);
                     isCalibratingEnergy = false;
-                    G.TB.AudioModule.StopEnergyCalibration();
+                    R.DMIbox.AudioModule.StopEnergyCalibration();
                     break;
             }
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            G.TB.FftModule.Stop();
-            G.TB.AudioModule.WaveInEnabled = false;
-            G.TB.AudioModule.WaveOutEnabled = false;
+            R.DMIbox.FftModule.Stop();
+            R.DMIbox.AudioModule.WaveInEnabled = false;
+            R.DMIbox.AudioModule.WaveOutEnabled = false;
             dispatcherTimer.Stop();
         }
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show(R.DMIbox.AudioFormatFft.FftPoints.ToString());
+                
+                MessageBox.Show(R.DMIbox.AudioFormatFft.PcmDataLength.ToString());
+                MessageBox.Show(R.DMIbox.AudioFormatFft.ZeroPaddedArrayLength.ToString());
             if (isSetup)
             {
-                G.TB.NoteKeysModule.ResetAllLabels();
+                R.DMIbox.NoteKeysModule.ResetAllLabels();
 
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.C5);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.D5);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.E5);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.F5);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.G5);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.A5);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.B5);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.C5);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.D5);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.E5);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.F5);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.G5);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.A5);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.B5);
 
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.C6);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.D6);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.E6);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.F6);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.G6);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.A6);
-                G.TB.NoteKeysModule.SetCheckBox(MidiNotes.B6);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.C6);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.D6);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.E6);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.F6);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.G6);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.A6);
+                R.DMIbox.NoteKeysModule.SetCheckBox(MidiNotes.B6);
 
             }
         }
@@ -336,13 +340,13 @@ namespace Resin
             {
                 if ((bool)cbxAudioIn.IsChecked)
                 {
-                    G.TB.AudioModule.WaveInEnabled = true;
-                    G.TB.FftModule.Start();
+                    R.DMIbox.AudioModule.WaveInEnabled = true;
+                    R.DMIbox.FftModule.Start();
                 }
                 else
                 {
-                    G.TB.FftModule.Stop();
-                    G.TB.AudioModule.WaveInEnabled = false;
+                    R.DMIbox.FftModule.Stop();
+                    R.DMIbox.AudioModule.WaveInEnabled = false;
                 }
             }
         }
@@ -354,11 +358,11 @@ namespace Resin
                 switch (cbxHeadtracker.IsChecked)
                 {
                     case true:
-                        G.TB.ControlMode = TongControlModes.Headtracker;
+                        R.DMIbox.ControlMode = TongControlModes.Headtracker;
                         break;
 
                     case false:
-                        G.TB.ControlMode = TongControlModes.Keyboard;
+                        R.DMIbox.ControlMode = TongControlModes.Keyboard;
                         break;
                 }
             }
@@ -385,11 +389,11 @@ namespace Resin
             {
                 if ((bool)cbxPlaySines.IsChecked)
                 {
-                    G.TB.AudioModule.WaveOutEnabled = true;
+                    R.DMIbox.AudioModule.WaveOutEnabled = true;
                 }
                 else
                 {
-                    G.TB.AudioModule.WaveOutEnabled = false;
+                    R.DMIbox.AudioModule.WaveOutEnabled = false;
                 }
             }
         }
@@ -398,8 +402,8 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.FFTplotModule.Enabled = true;
-                G.TB.FFTplotModule.RemapCanvas();
+                R.DMIbox.FFTplotModule.Enabled = true;
+                R.DMIbox.FFTplotModule.RemapCanvas();
             }
         }
 
@@ -407,7 +411,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.FFTplotModule.Enabled = false;
+                R.DMIbox.FFTplotModule.Enabled = false;
             }
         }
 
@@ -419,7 +423,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.AudioModule.WaveInDeviceIndex = lstWaveInSoundCards.SelectedIndex;
+                R.DMIbox.AudioModule.WaveInDeviceIndex = lstWaveInSoundCards.SelectedIndex;
             }
         }
 
@@ -427,7 +431,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.AudioModule.WaveOutDeviceIndex = lstWaveOutSoundCards.SelectedIndex;
+                R.DMIbox.AudioModule.WaveOutDeviceIndex = lstWaveOutSoundCards.SelectedIndex;
             }
         }
 
@@ -435,7 +439,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.AudioModule.WaveOutMasterVolume = (float)sldAudioOutVolume.Value / 100f;
+                R.DMIbox.AudioModule.WaveOutMasterVolume = (float)sldAudioOutVolume.Value / 100f;
             }
         }
 
@@ -443,7 +447,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                G.TB.AudioModule.Panning = (float)sldPanning.Value;
+                R.DMIbox.AudioModule.Panning = (float)sldPanning.Value;
             }
         }
 

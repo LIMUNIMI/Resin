@@ -1,5 +1,7 @@
-﻿using NeeqDMIs.Headtracking.NeeqHT;
+﻿using NeeqDMIs.Filters.ValueFilters;
+using NeeqDMIs.Headtracking.NeeqHT;
 using NeeqDMIs.Keyboard;
+using NeeqDMIs.MIDI;
 using NeeqDMIs.Music;
 using NeeqDMIs.Utils;
 using NeeqDMIs.Utils.ValueFilters;
@@ -17,10 +19,10 @@ using System.Collections.Generic;
 
 namespace Resin.DMIBox
 {
-    public class TongBox : NeeqDMIs.DMIBox
+    public class ResinDMIBox
     {
         #region Modules
-
+        public IMidiModule MidiModule { get; set; }
         public AudioFormatFft AudioFormatFft { get; set; }
         public AudioModule AudioModule { get; set; }
         public FFTModule FftModule { get; set; }
@@ -43,7 +45,7 @@ namespace Resin.DMIBox
 
         #region Control modes
 
-        private TongControlModes controlMode = G.DefaultControlMode;
+        private TongControlModes controlMode = R.DefaultControlMode;
         private HByawStrumming hbYawStrumming;
         private KBplayNote kbPlayNote;
         private KBsetExpression kbSetExpression;
@@ -169,10 +171,10 @@ namespace Resin.DMIBox
 
         public bool InDeadZone { get; private set; }
 
-        public void HTStrum_ElaboratePosition(HeadTrackerData htData)
+        public void HTStrum_ElaboratePosition(NeeqHTData htData)
         {
             previousYaw = currentYaw;
-            currentYaw = htData.TranspYaw;
+            currentYaw = htData.CenteredPosition.Yaw;
 
             HTProcessSpeed();
 
@@ -385,7 +387,7 @@ namespace Resin.DMIBox
 
         private NoteData GetNoteData(MidiNotes note)
         {
-            foreach (NoteData and in G.TB.NoteDatas)
+            foreach (NoteData and in R.DMIbox.NoteDatas)
             {
                 if (and.MidiNote == note)
                 {

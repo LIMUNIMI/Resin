@@ -16,39 +16,40 @@ using Resin.Modules.PitchRecognizer;
 using Resin.Modules.SpectrumAnalyzer;
 using Resin.Setups.Behaviors;
 using Resin.Setups.SpectrumFilters;
+using NeeqDMIs.Filters.ValueFilters;
 
 namespace Resin.Setups
 {
     public class SetupDefault : ISetup
     {
-        private TongBox T;
+        private ResinDMIBox T;
 
         public SetupDefault(MainWindow window)
         {
-            G.TB = new TongBox();
-            G.TB.MainWindow = window;
+            R.DMIbox = new ResinDMIBox();
+            R.DMIbox.MainWindow = window;
         }
 
         public void Setup()
         {
             #region Instances
 
-            T = G.TB;
+            T = R.DMIbox;
 
-            T.AudioFormatFft = new AudioFormatFft(48_000, 24, 1, 43, AudioFormatFft.ZeroPaddingModes.FillAndDouble);
+            T.AudioFormatFft = new AudioFormatFft(48_000, 24, 1, 43, AudioFormatFft.ZeroPaddingModes.FillToPowerOfTwo); // old bit 43, fillanddouble
 
             //G.AllNotesValues = NoteValuesFactory.EqualFakeBuckets(T.AudioFormatFft, MidiNotes.A4, 30, 10);
-            G.TB.NoteDatas = NoteDataFactory.NaturalNotes(T.AudioFormatFft);
+            R.DMIbox.NoteDatas = NoteDataFactory.NaturalNotes(T.AudioFormatFft);
 
             T.AudioModule = new AudioModule(T.AudioFormatFft);
             T.FftModule = new FFTModule(T.AudioFormatFft);
             T.SpectrumAnalyzerModule = new SpectrumAnalyzerModule(new DoubleFilterMAExpDecaying(0.3f));
             T.MidiModule = new MidiModuleNAudio(1, 1);
             IntPtr windowHandle = new WindowInteropHelper(T.MainWindow).Handle;
-            T.KeyboardModule = new KeyboardModule(windowHandle);
+            T.KeyboardModule = new KeyboardModule(windowHandle, RawInputProcessor.RawInputCaptureMode.Foreground);
             T.PitchRecognizerModule = new PitchRecognizerModule();
             T.NoteKeysModule = new NotesGridModule(T.MainWindow, T.MainWindow.gridKeys, T.MainWindow.brdNanRadio);
-            T.HeadTrackerModule = new NeeqHTModule(115200);
+            T.HeadTrackerModule = new NeeqHTModule(115200, "COM");
             T.FFTplotModule = new FFTplotModule(T.MainWindow.cnvsPlot);
 
             T.MusicParameters = new MusicParams(T.MidiModule);

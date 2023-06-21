@@ -4,6 +4,7 @@ using NeeqDMIs.Utils;
 using NeeqDMIs.Utils.ValueFilters;
 using System;
 using Resin.DMIBox;
+using NeeqDMIs.Filters.ValueFilters;
 
 namespace Resin.Setups.Behaviors
 {
@@ -12,7 +13,7 @@ namespace Resin.Setups.Behaviors
         private const int MinimumPressure = 90;
         private readonly IDoubleFilter SpeedFilter = new DoubleFilterMAExpDecaying(0.4f);
         private readonly ValueMapperDouble SpeedMapper = new ValueMapperDouble(0.5f, 127);
-        private readonly ValueMapperDouble YawMapper = new ValueMapperDouble(50, 127);
+        //private readonly ValueMapperDouble YawMapper = new ValueMapperDouble(50, 127);
         private double currentYaw = 0;
         private Directions direction = Directions.Right;
         private double previousYaw = 0;
@@ -38,13 +39,13 @@ namespace Resin.Setups.Behaviors
             PressureControl.MinimumPressure = MinimumPressure;
         }
 
-        public void ReceiveHeadTrackerData(HeadTrackerData data)
+        public void ReceiveHeadTrackerData(NeeqHTData data)
         {
-            currentYaw = data.TranspYaw;
+            currentYaw = data.CenteredPosition.Yaw;
             speed = currentYaw - previousYaw;
 
             Speed = speed;
-            G.TB.Mon_Speed = speed;
+            R.DMIbox.Mon_Speed = speed;
 
             ProcessStrumming();
 

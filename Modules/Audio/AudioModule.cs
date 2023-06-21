@@ -174,7 +174,7 @@ namespace Resin.Modules.Audio
 
         public void UpdateGain(MidiNotes note, double gain)
         {
-            foreach (NoteData and in G.TB.NoteDatas)
+            foreach (NoteData and in R.DMIbox.NoteDatas)
             {
                 if (and.MidiNote == note)
                 {
@@ -198,7 +198,7 @@ namespace Resin.Modules.Audio
 
         private float GetStandardGain()
         {
-            return WaveOutMasterVolume / G.TB.GetPlayableNoteDatas().Count;
+            return WaveOutMasterVolume / R.DMIbox.GetPlayableNoteDatas().Count;
         }
 
         private void InitializeWaveOut()
@@ -214,7 +214,7 @@ namespace Resin.Modules.Audio
 
         private void StartWaveOutSinesCarpet()
         {
-            var pn = G.TB.GetPlayableNoteDatas();
+            var pn = R.DMIbox.GetPlayableNoteDatas();
 
             if (pn.Count > 0)
             {
@@ -242,7 +242,7 @@ namespace Resin.Modules.Audio
         {
             sampleProviders = new List<ISampleProvider>();
 
-            var pn = G.TB.GetPlayableNoteDatas();
+            var pn = R.DMIbox.GetPlayableNoteDatas();
 
             foreach (NoteData noteData in pn)
             {
@@ -308,13 +308,13 @@ namespace Resin.Modules.Audio
             using (var reader = new StreamReader(saveCalibPath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                G.TB.NoteDatas.Clear();
+                R.DMIbox.NoteDatas.Clear();
                 var ands = csv.GetRecords<NoteData>();
-                G.TB.NoteDatas.AddRange(from NoteData and in ands
+                R.DMIbox.NoteDatas.AddRange(from NoteData and in ands
                                         select and);
             }
 
-            G.TB.NoteKeysModule.SetSlidersToBeUpdated();
+            R.DMIbox.NoteKeysModule.SetSlidersToBeUpdated();
         }
 
         public void SaveCalibration()
@@ -322,7 +322,7 @@ namespace Resin.Modules.Audio
             using (var writer = new StreamWriter(saveCalibPath))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
-                csv.WriteRecords(G.TB.NoteDatas);
+                csv.WriteRecords(R.DMIbox.NoteDatas);
             }
         }
 
@@ -342,7 +342,7 @@ namespace Resin.Modules.Audio
 
         private void EnergyCalibTimer_MicroTimerElapsed(object sender, MicroTimerEventArgs e)
         {
-            foreach (NoteData and in G.TB.NoteDatas)
+            foreach (NoteData and in R.DMIbox.NoteDatas)
             {
                 if (and.IsPlayable)
                 {
@@ -369,7 +369,7 @@ namespace Resin.Modules.Audio
             waveOutEvent.Init(new SampleToWaveProvider(PanProvider));
             waveOutEvent.Play();
 
-            G.TB.NoteKeysModule.SetSlidersToBeUpdated();
+            R.DMIbox.NoteKeysModule.SetSlidersToBeUpdated();
         }
 
         #endregion Energy Calibration

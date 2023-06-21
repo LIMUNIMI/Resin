@@ -4,7 +4,7 @@ using Resin.DataTypes;
 
 namespace Resin.DMIBox
 {
-    public static class G
+    public static class R
     {
         #region Look and feel
 
@@ -20,10 +20,10 @@ namespace Resin.DMIBox
 
         public static readonly TongControlModes DefaultControlMode = TongControlModes.Keyboard;
 
-        #region TongBox
+        #region DMIBox
 
-        private static TongBox tongBox;
-        public static TongBox TB { get => tongBox; set => tongBox = value; }
+        private static ResinDMIBox dmiBox;
+        public static ResinDMIBox DMIbox { get => dmiBox; set => dmiBox = value; }
 
         #endregion TongBox
 

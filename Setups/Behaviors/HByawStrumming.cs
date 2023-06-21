@@ -17,11 +17,11 @@ namespace Resin.Setups.Behaviors
             this.enabled = enabled;
         }
 
-        public void ReceiveHeadTrackerData(HeadTrackerData data)
+        public void ReceiveHeadTrackerData(NeeqHTData data)
         {
             if (enabled)
             {
-                G.TB.HTStrum_ElaboratePosition(data);
+                R.DMIbox.HTStrum_ElaboratePosition(data);
             }
         }
     }

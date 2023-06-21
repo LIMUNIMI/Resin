@@ -81,7 +81,7 @@ namespace Resin.Modules.FFTplot
 
             playableNotesBinsLines.Clear();
 
-            foreach (NoteData nd in G.TB.GetPlayableNoteDatas())
+            foreach (NoteData nd in R.DMIbox.GetPlayableNoteDatas())
             {
                 noteLine = new Line();
                 noteLine.Stroke = noteLineBinBrush;
@@ -126,7 +126,7 @@ namespace Resin.Modules.FFTplot
             int maxBin = 0;
             int minBin = 1000000000;
 
-            List<NoteData> playableNotes = G.TB.GetPlayableNoteDatas();
+            List<NoteData> playableNotes = R.DMIbox.GetPlayableNoteDatas();
 
             if (playableNotes.Count > 0)
             {
@@ -175,7 +175,7 @@ namespace Resin.Modules.FFTplot
 
             noteEnergiesLines.Clear();
 
-            foreach (NoteData nd in G.TB.NoteDatas)
+            foreach (NoteData nd in R.DMIbox.NoteDatas)
             {
                 if (nd.IsPlayable)
                 {
@@ -252,7 +252,7 @@ namespace Resin.Modules.FFTplot
         {
             EraseNoteMoreEnergetic();
 
-            var note = G.TB.GetNoteMoreEnergeticData();
+            var note = R.DMIbox.GetNoteMoreEnergeticData();
             noteLine = new Line();
             noteLine.Stroke = noteEnergyBrush;
             noteLine.StrokeThickness = 3;

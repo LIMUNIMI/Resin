@@ -1,8 +1,8 @@
-﻿using NeeqDMIs.Utils.ValueFilters;
-using System;
-using System.Collections.Generic;
+﻿using NeeqDMIs.Filters.ValueFilters;
 using Resin.DMIBox;
 using Resin.Modules.FFT;
+using System;
+using System.Collections.Generic;
 
 namespace Resin.Modules.SpectrumAnalyzer
 {
@@ -70,36 +70,36 @@ namespace Resin.Modules.SpectrumAnalyzer
             double maxEnergy = 0f;
             int maxEnergyIndex = 0;
 
-            for (int i = 0; i < G.TB.NoteDatas.Count; i++)
+            for (int i = 0; i < R.DMIbox.NoteDatas.Count; i++)
             {
-                if (G.TB.NoteDatas[i].IsPlayable)
+                if (R.DMIbox.NoteDatas[i].IsPlayable)
                 {
-                    G.TB.NoteDatas[i].In_Energy = 0f;
-                    for (int j = G.TB.NoteDatas[i].In_LowBin; j <= G.TB.NoteDatas[i].In_HighBin; j++)
+                    R.DMIbox.NoteDatas[i].In_Energy = 0f;
+                    for (int j = R.DMIbox.NoteDatas[i].In_LowBin; j <= R.DMIbox.NoteDatas[i].In_HighBin; j++)
                     {
                         switch (EnergyMode)
                         {
                             case EnergyModes.Normal:
-                                G.TB.NoteDatas[i].In_Energy += fftData[j] / G.TB.NoteDatas[i].In_Dimension;
+                                R.DMIbox.NoteDatas[i].In_Energy += fftData[j] / R.DMIbox.NoteDatas[i].In_Dimension;
                                 break;
 
                             case EnergyModes.Quadratic:
-                                G.TB.NoteDatas[i].In_Energy += fftData[j] * fftData[j] / G.TB.NoteDatas[i].In_Dimension;
+                                R.DMIbox.NoteDatas[i].In_Energy += fftData[j] * fftData[j] / R.DMIbox.NoteDatas[i].In_Dimension;
                                 break;
                         }
                     }
 
-                    G.TB.NoteDatas[i].In_Energy = Math.Sqrt(G.TB.NoteDatas[i].In_Energy);
+                    R.DMIbox.NoteDatas[i].In_Energy = Math.Sqrt(R.DMIbox.NoteDatas[i].In_Energy);
 
-                    if (G.TB.NoteDatas[i].In_Energy >= maxEnergy)
+                    if (R.DMIbox.NoteDatas[i].In_Energy >= maxEnergy)
                     {
-                        maxEnergy = G.TB.NoteDatas[i].In_Energy;
+                        maxEnergy = R.DMIbox.NoteDatas[i].In_Energy;
                         maxEnergyIndex = i;
                     }
                 }
             }
 
-            G.TB.NoteMoreEnergeticDataIndex = maxEnergyIndex;
+            R.DMIbox.NoteMoreEnergeticDataIndex = maxEnergyIndex;
         }
 
         private void NotifyReceivers()

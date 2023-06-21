@@ -13,7 +13,7 @@ namespace Resin.Modules.PitchRecognizer
             MidiNotes result = MidiNotes.C4;
             int diff = 100000;
             int c;
-            foreach (NoteData nd in G.TB.NoteDatas)
+            foreach (NoteData nd in R.DMIbox.NoteDatas)
             {
                 if(nd.In_LowBin <= bin && nd.In_HighBin >= bin)
                 {
@@ -28,7 +28,7 @@ namespace Resin.Modules.PitchRecognizer
             MidiNotes result = MidiNotes.C4;
             int diff = 100000;
             int c;
-            foreach (NoteData nd in G.TB.GetPlayableNoteDatas())
+            foreach (NoteData nd in R.DMIbox.GetPlayableNoteDatas())
             {
                 if (nd.In_LowBin <= bin && nd.In_HighBin >= bin)
                 {

@@ -94,7 +94,7 @@
     <Compile Include="Backups\PressureControl.cs" />
     <Compile Include="DMIBox\ISineCalibrationListener.cs" />
     <Compile Include="DMIBox\SineCalibrationStatuses.cs" />
-    <Compile Include="DMIBox\TongBox.cs" />
+    <Compile Include="DMIBox\ResinDMIBox.cs" />
     <Compile Include="DMIBox\TongControlModes.cs" />
     <Compile Include="Modules\FFTplot\FFTplotModule.cs" />
     <Compile Include="Modules\FFT\IFftDataReceiver.cs" />
@@ -130,7 +130,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DMIBox\G.cs" />
+    <Compile Include="DMIBox\R.cs" />
     <Compile Include="Modules\Audio\AudioModule.cs" />
     <Compile Include="Modules\FFT\FFTModule.cs" />
     <Compile Include="MainWindow.xaml.cs">

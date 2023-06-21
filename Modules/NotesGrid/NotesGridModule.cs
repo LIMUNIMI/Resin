@@ -147,7 +147,7 @@ namespace Resin.Modules.NotesGrid
 
         public void UpdateAllGainSliders()
         {
-            foreach (NoteData nd in G.TB.NoteDatas)
+            foreach (NoteData nd in R.DMIbox.NoteDatas)
             {
                 foreach (KeySlider slider in KeySliders)
                 {
@@ -162,7 +162,7 @@ namespace Resin.Modules.NotesGrid
         public void UpdateGainSlider(object sender)
         {
             KeySlider slider = (KeySlider)sender;
-            G.TB.AudioModule.UpdateGain(slider.KeyLabel.Note, slider.Value);
+            R.DMIbox.AudioModule.UpdateGain(slider.KeyLabel.Note, slider.Value);
         }
 
         private static void UpdateCheckBox(object sender)
@@ -171,18 +171,18 @@ namespace Resin.Modules.NotesGrid
 
             if ((bool)kcb.IsChecked)
             {
-                G.TB.SetNote_Playable(kcb.KeyLabel.Note);
+                R.DMIbox.SetNote_Playable(kcb.KeyLabel.Note);
             }
             else
             {
-                G.TB.SetNote_NotPlayable(kcb.KeyLabel.Note);
+                R.DMIbox.SetNote_NotPlayable(kcb.KeyLabel.Note);
             }
 
-            G.TB.AudioModule.UpdatePlayableNotes();
-            G.TB.FFTplotModule.RemapCanvas();
+            R.DMIbox.AudioModule.UpdatePlayableNotes();
+            R.DMIbox.FFTplotModule.RemapCanvas();
 
-            G.TB.FFTplotModule.DrawPlayableNotesBins();
-            G.TB.SetBandPassToPlayableNotes();
+            R.DMIbox.FFTplotModule.DrawPlayableNotesBins();
+            R.DMIbox.SetBandPassToPlayableNotes();
         }
 
         private static void UpdateRadioButton(object sender)
@@ -191,7 +191,7 @@ namespace Resin.Modules.NotesGrid
 
             if ((bool)krb.IsChecked)
             {
-                G.TB.AudioModule.SingleNoteToCalibrate = krb.KeyLabel.Note;
+                R.DMIbox.AudioModule.SingleNoteToCalibrate = krb.KeyLabel.Note;
             }
         }
 
