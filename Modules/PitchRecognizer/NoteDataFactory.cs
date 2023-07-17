@@ -9,7 +9,7 @@ namespace Resin.Modules.PitchRecognizer
     public static class NoteDataFactory
     {
         public const double DEFAULT_GAIN = 0.5f;
-        public static List<NoteData> EqualFakeBuckets(AudioFormatFft audioFormatFft, MidiNotes firstNote, int firstNoteBin, int step)
+        public static List<NoteData> EqualFakeBuckets(AudioInParameters audioFormatFft, MidiNotes firstNote, int firstNoteBin, int step)
         {
             var allNotes = Enum.GetValues(typeof(MidiNotes));
             List<NoteData> Values = new List<NoteData>();
@@ -42,7 +42,7 @@ namespace Resin.Modules.PitchRecognizer
             return Values;
         }
 
-        public static List<NoteData> NaturalNotes(AudioFormatFft audioFormatFft)
+        public static List<NoteData> NaturalNotes(AudioInParameters audioFormatFft)
         {
             int SR = audioFormatFft.SampleRate;
             int FFTS = audioFormatFft.ZeroPaddedArrayLength;

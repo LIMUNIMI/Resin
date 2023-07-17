@@ -118,8 +118,8 @@ namespace Resin
 
         private void sldCalibSetpoint_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            R.DMIbox.AudioModule.CalibrationSetpoint = sldCalibSetpoint.Value;
-            R.DMIbox.FFTplotModule.CalibrationSetpoint = R.DMIbox.AudioModule.CalibrationSetpoint;
+            R.DMIbox.SineCarpetModule.CalibrationSetpoint = sldCalibSetpoint.Value;
+            R.DMIbox.FFTplotModule.CalibrationSetpoint = R.DMIbox.SineCarpetModule.CalibrationSetpoint;
         }
 
         private void UpdateCalibrationStatus()
@@ -171,7 +171,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                sldAudioOutVolume.Value = R.DMIbox.AudioModule.WaveOutMasterVolume * 100f;
+                sldAudioOutVolume.Value = R.DMIbox.SineCarpetModule.MasterVolume * 100f;
             }
         }
 
@@ -231,7 +231,7 @@ namespace Resin
 
         private void btnLoadCalib_Click(object sender, RoutedEventArgs e)
         {
-            R.DMIbox.AudioModule.LoadCalibration();
+            R.DMIbox.SineCarpetModule.LoadCalibration();
         }
 
         private void btnMajorScale_Click(object sender, RoutedEventArgs e)
@@ -274,7 +274,7 @@ namespace Resin
 
         private void btnSaveCalib_Click(object sender, RoutedEventArgs e)
         {
-            R.DMIbox.AudioModule.SaveCalibration();
+            R.DMIbox.SineCarpetModule.SaveCalibration();
         }
 
         private void btnSineCal_EnergyClick(object sender, RoutedEventArgs e)
@@ -285,14 +285,14 @@ namespace Resin
                     R.DMIbox.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.All;
                     btnSineCal.Background = new SolidColorBrush(Colors.DarkRed);
                     isCalibratingEnergy = true;
-                    R.DMIbox.AudioModule.StartEnergyCalibration();
+                    R.DMIbox.SineCarpetModule.StartEnergyCalibration();
                     break;
 
                 case true:
                     R.DMIbox.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.MoreEnergetic;
                     btnSineCal.Background = new SolidColorBrush(Colors.Black);
                     isCalibratingEnergy = false;
-                    R.DMIbox.AudioModule.StopEnergyCalibration();
+                    R.DMIbox.SineCarpetModule.StopEnergyCalibration();
                     break;
             }
         }
@@ -300,17 +300,17 @@ namespace Resin
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             R.DMIbox.FftModule.Stop();
-            R.DMIbox.AudioModule.WaveInEnabled = false;
-            R.DMIbox.AudioModule.WaveOutEnabled = false;
+            R.DMIbox.WaveInModule.WaveInEnabled = false;
+            R.DMIbox.SineCarpetModule.Enabled = false;
             dispatcherTimer.Stop();
         }
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(R.DMIbox.AudioFormatFft.FftPoints.ToString());
+            MessageBox.Show(R.DMIbox.AudioInParameters.FftPoints.ToString());
                 
-                MessageBox.Show(R.DMIbox.AudioFormatFft.PcmDataLength.ToString());
-                MessageBox.Show(R.DMIbox.AudioFormatFft.ZeroPaddedArrayLength.ToString());
+                MessageBox.Show(R.DMIbox.AudioInParameters.PcmDataLength.ToString());
+                MessageBox.Show(R.DMIbox.AudioInParameters.ZeroPaddedArrayLength.ToString());
             if (isSetup)
             {
                 R.DMIbox.NoteKeysModule.ResetAllLabels();
@@ -340,13 +340,13 @@ namespace Resin
             {
                 if ((bool)cbxAudioIn.IsChecked)
                 {
-                    R.DMIbox.AudioModule.WaveInEnabled = true;
+                    R.DMIbox.WaveInModule.WaveInEnabled = true;
                     R.DMIbox.FftModule.Start();
                 }
                 else
                 {
                     R.DMIbox.FftModule.Stop();
-                    R.DMIbox.AudioModule.WaveInEnabled = false;
+                    R.DMIbox.WaveInModule.WaveInEnabled = false;
                 }
             }
         }
@@ -389,11 +389,11 @@ namespace Resin
             {
                 if ((bool)cbxPlaySines.IsChecked)
                 {
-                    R.DMIbox.AudioModule.WaveOutEnabled = true;
+                    R.DMIbox.SineCarpetModule.Enabled = true;
                 }
                 else
                 {
-                    R.DMIbox.AudioModule.WaveOutEnabled = false;
+                    R.DMIbox.SineCarpetModule.Enabled = false;
                 }
             }
         }
@@ -423,7 +423,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                R.DMIbox.AudioModule.WaveInDeviceIndex = lstWaveInSoundCards.SelectedIndex;
+                R.DMIbox.WaveInModule.WaveInDeviceIndex = lstWaveInSoundCards.SelectedIndex;
             }
         }
 
@@ -431,7 +431,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                R.DMIbox.AudioModule.WaveOutDeviceIndex = lstWaveOutSoundCards.SelectedIndex;
+                R.DMIbox.SineCarpetModule.MasterVolume = lstWaveOutSoundCards.SelectedIndex;
             }
         }
 
@@ -439,7 +439,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                R.DMIbox.AudioModule.WaveOutMasterVolume = (float)sldAudioOutVolume.Value / 100f;
+                R.DMIbox.SineCarpetModule.MasterVolume = (float)sldAudioOutVolume.Value / 100f;
             }
         }
 
@@ -447,7 +447,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                R.DMIbox.AudioModule.Panning = (float)sldPanning.Value;
+                R.DMIbox.SineCarpetModule.Panning = (float)sldPanning.Value;
             }
         }
 

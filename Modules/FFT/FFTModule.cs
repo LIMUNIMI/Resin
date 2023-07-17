@@ -8,7 +8,7 @@ namespace Resin.Modules.FFT
 {
     public class FFTModule : IPcmDataReceiver
     {
-        private AudioFormatFft audioFormatFft;
+        private AudioInParameters audioFormatFft;
         private double[] FftDataFiltered;
         private double[] FftDataRaw;
         private MicroTimer FFTtimer;
@@ -36,7 +36,7 @@ namespace Resin.Modules.FFT
         /// A module which performs all the FFT computations and draws the result in a canvas.
         /// </summary>
         /// <param name="canvas"> </param>
-        public FFTModule(AudioFormatFft audioFormatFft, long period = 10000)
+        public FFTModule(AudioInParameters audioFormatFft, long period = 10000)
         {
             FFTtimer = new MicroTimer();
             FFTtimer.Interval = period;

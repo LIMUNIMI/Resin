@@ -162,7 +162,7 @@ namespace Resin.Modules.NotesGrid
         public void UpdateGainSlider(object sender)
         {
             KeySlider slider = (KeySlider)sender;
-            R.DMIbox.AudioModule.UpdateGain(slider.KeyLabel.Note, slider.Value);
+            R.DMIbox.SineCarpetModule.UpdateGain(slider.KeyLabel.Note, slider.Value);
         }
 
         private static void UpdateCheckBox(object sender)
@@ -178,7 +178,7 @@ namespace Resin.Modules.NotesGrid
                 R.DMIbox.SetNote_NotPlayable(kcb.KeyLabel.Note);
             }
 
-            R.DMIbox.AudioModule.UpdatePlayableNotes();
+            R.DMIbox.SineCarpetModule.UpdatePlayableNotes();
             R.DMIbox.FFTplotModule.RemapCanvas();
 
             R.DMIbox.FFTplotModule.DrawPlayableNotesBins();
@@ -191,7 +191,7 @@ namespace Resin.Modules.NotesGrid
 
             if ((bool)krb.IsChecked)
             {
-                R.DMIbox.AudioModule.SingleNoteToCalibrate = krb.KeyLabel.Note;
+                R.DMIbox.SineCarpetModule.SingleNoteToCalibrate = krb.KeyLabel.Note;
             }
         }
 

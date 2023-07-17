@@ -4,7 +4,6 @@ using NeeqDMIs.Keyboard;
 using NeeqDMIs.MIDI;
 using NeeqDMIs.Music;
 using NeeqDMIs.Utils;
-using NeeqDMIs.Utils.ValueFilters;
 using Resin.DataTypes;
 using Resin.Modules.Audio;
 using Resin.Modules.FFT;
@@ -16,6 +15,7 @@ using Resin.Setups.Behaviors;
 using Resin.Setups.SpectrumFilters;
 using System;
 using System.Collections.Generic;
+using Resin.Modules.Audio;
 
 namespace Resin.DMIBox
 {
@@ -23,8 +23,10 @@ namespace Resin.DMIBox
     {
         #region Modules
         public IMidiModule MidiModule { get; set; }
-        public AudioFormatFft AudioFormatFft { get; set; }
-        public AudioModule AudioModule { get; set; }
+        public AudioInParameters AudioInParameters { get; set; }
+        public WaveInModule WaveInModule { get; set; }
+        public WaveOutModule WaveOutModule { get; set; }
+        public SineCarpetModule SineCarpetModule { get; set; }
         public FFTModule FftModule { get; set; }
         public FFTplotModule FFTplotModule { get; set; }
         public NeeqHTModule HeadTrackerModule { get; set; }
@@ -33,6 +35,7 @@ namespace Resin.DMIBox
         public NotesGridModule NoteKeysModule { get; set; }
         public PitchRecognizerModule PitchRecognizerModule { get; set; }
         public SpectrumAnalyzerModule SpectrumAnalyzerModule { get; set; }
+        public SineCarpetModule EnergyCalibrationModule { get; set; }
 
         #endregion Modules
 

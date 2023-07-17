@@ -17,6 +17,7 @@ using Resin.Modules.SpectrumAnalyzer;
 using Resin.Setups.Behaviors;
 using Resin.Setups.SpectrumFilters;
 using NeeqDMIs.Filters.ValueFilters;
+using Resin.Modules.Audio;
 
 namespace Resin.Setups
 {
@@ -36,13 +37,15 @@ namespace Resin.Setups
 
             T = R.DMIbox;
 
-            T.AudioFormatFft = new AudioFormatFft(48_000, 24, 1, 43, AudioFormatFft.ZeroPaddingModes.FillToPowerOfTwo); // old bit 43, fillanddouble
+            T.AudioInParameters = new AudioInParameters(48_000, 24, 1, 43, AudioInParameters.ZeroPaddingModes.FillToPowerOfTwo); // old bit 43, fillanddouble
 
             //G.AllNotesValues = NoteValuesFactory.EqualFakeBuckets(T.AudioFormatFft, MidiNotes.A4, 30, 10);
-            R.DMIbox.NoteDatas = NoteDataFactory.NaturalNotes(T.AudioFormatFft);
+            R.DMIbox.NoteDatas = NoteDataFactory.NaturalNotes(T.AudioInParameters);
 
-            T.AudioModule = new AudioModule(T.AudioFormatFft);
-            T.FftModule = new FFTModule(T.AudioFormatFft);
+            T.WaveInModule = new WaveInModule(T.AudioInParameters);
+            T.WaveOutModule = new WaveOutModule();
+            T.SineCarpetModule = new SineCarpetModule(T.WaveOutModule);
+            T.FftModule = new FFTModule(T.AudioInParameters);
             T.SpectrumAnalyzerModule = new SpectrumAnalyzerModule(new DoubleFilterMAExpDecaying(0.3f));
             T.MidiModule = new MidiModuleNAudio(1, 1);
             IntPtr windowHandle = new WindowInteropHelper(T.MainWindow).Handle;
@@ -62,7 +65,7 @@ namespace Resin.Setups
             MidiDeviceFinder midiDeviceFinder = new MidiDeviceFinder(T.MidiModule);
             midiDeviceFinder.SetToLastDevice();
 
-            T.AudioModule.PcmDataReceivers.Add(T.FftModule);
+            T.WaveInModule.PcmDataReceivers.Add(T.FftModule);
 
             //T.FftModule.SpectrumFilters.Add(new PreciseBandPass(50, 10000));
             T.FftModule.SpectrumFilters.Add(new SpectrumSmoothing(2)); // 2 is optimal
