@@ -1,9 +1,13 @@
-﻿using NeeqDMIs.Filters.ValueFilters;
-using NeeqDMIs.Headtracking.NeeqHT;
-using NeeqDMIs.Keyboard;
-using NeeqDMIs.MIDI;
-using NeeqDMIs.Music;
-using NeeqDMIs.Utils;
+﻿using NAudio.CoreAudioApi;
+using NAudio.Wave;
+using NITHdmis.Audio.In;
+using NITHdmis.Audio.Out;
+using NITHdmis.Filters.ValueFilters;
+using NITHdmis.Headtracking.NeeqHT;
+using NITHdmis.Keyboard;
+using NITHdmis.MIDI;
+using NITHdmis.Music;
+using NITHdmis.Utils;
 using Resin.DataTypes;
 using Resin.Modules.Audio;
 using Resin.Modules.FFT;
@@ -15,7 +19,6 @@ using Resin.Setups.Behaviors;
 using Resin.Setups.SpectrumFilters;
 using System;
 using System.Collections.Generic;
-using Resin.Modules.Audio;
 
 namespace Resin.DMIBox
 {
@@ -23,12 +26,11 @@ namespace Resin.DMIBox
     {
         #region Modules
         public IMidiModule MidiModule { get; set; }
-        public AudioInParameters AudioInParameters { get; set; }
         public WaveInModule WaveInModule { get; set; }
-        public WaveOutModule WaveOutModule { get; set; }
+        public WaveOutDeviceMixerModule WaveOutMixerModule { get; set; }
         public SineCarpetModule SineCarpetModule { get; set; }
         public FFTModule FftModule { get; set; }
-        public FFTplotModule FFTplotModule { get; set; }
+        public FFTplotModule FftPlotModule { get; set; }
         public NeeqHTModule HeadTrackerModule { get; set; }
         public KeyboardModule KeyboardModule { get; set; }
         public MainWindow MainWindow { get; set; }
@@ -202,7 +204,7 @@ namespace Resin.DMIBox
 
         public void SetBandPassToPlayableNotes()
         {
-            List<NoteData> pnd = GetPlayableNoteDatas();
+            List<ResinNoteData> pnd = GetPlayableNoteDatas();
 
             if (pnd.Count > 0)
             {
@@ -259,9 +261,9 @@ namespace Resin.DMIBox
 
         #region Notes
 
-        private List<NoteData> noteDatas;
+        private List<ResinNoteData> noteDatas;
 
-        public List<NoteData> NoteDatas
+        public List<ResinNoteData> NoteDatas
         {
             get
             {
@@ -275,15 +277,15 @@ namespace Resin.DMIBox
 
         public int NoteMoreEnergeticDataIndex { get; set; } = 0;
 
-        public NoteData GetNoteMoreEnergeticData()
+        public ResinNoteData GetNoteMoreEnergeticData()
         {
             return NoteDatas[NoteMoreEnergeticDataIndex];
         }
 
-        public List<NoteData> GetPlayableNoteDatas()
+        public List<ResinNoteData> GetPlayableNoteDatas()
         {
-            List<NoteData> pndlist = new List<NoteData>();
-            foreach (NoteData nd in NoteDatas)
+            List<ResinNoteData> pndlist = new List<ResinNoteData>();
+            foreach (ResinNoteData nd in NoteDatas)
             {
                 if (nd.IsPlayable)
                 {
@@ -295,7 +297,7 @@ namespace Resin.DMIBox
 
         public void SetNote_NotPlayable(MidiNotes note)
         {
-            foreach (NoteData nd in NoteDatas)
+            foreach (ResinNoteData nd in NoteDatas)
             {
                 if (nd.MidiNote == note)
                 {
@@ -310,7 +312,7 @@ namespace Resin.DMIBox
         {
             foreach (MidiNotes note in noteList)
             {
-                foreach (NoteData nd in NoteDatas)
+                foreach (ResinNoteData nd in NoteDatas)
                 {
                     if (nd.MidiNote == note)
                     {
@@ -324,7 +326,7 @@ namespace Resin.DMIBox
 
         public void SetNote_Playable(MidiNotes note)
         {
-            foreach (NoteData nd in NoteDatas)
+            foreach (ResinNoteData nd in NoteDatas)
             {
                 if (nd.MidiNote == note)
                 {
@@ -339,7 +341,7 @@ namespace Resin.DMIBox
         {
             foreach (MidiNotes note in noteList)
             {
-                foreach (NoteData nd in NoteDatas)
+                foreach (ResinNoteData nd in NoteDatas)
                 {
                     if (nd.MidiNote == note)
                     {
@@ -388,9 +390,9 @@ namespace Resin.DMIBox
             }
         }
 
-        private NoteData GetNoteData(MidiNotes note)
+        private ResinNoteData GetNoteData(MidiNotes note)
         {
-            foreach (NoteData and in R.DMIbox.NoteDatas)
+            foreach (ResinNoteData and in R.DMIbox.NoteDatas)
             {
                 if (and.MidiNote == note)
                 {
@@ -403,5 +405,34 @@ namespace Resin.DMIBox
         }
 
         #endregion Notes
+
+        #region AudioIn Unification
+
+        private AudioInParameters audioInParameters;
+        public AudioInParameters AudioInParameters
+        {
+            get { return audioInParameters; } 
+            set
+            {
+                audioInParameters = value;
+                WaveInModule?.ReceiveAudioInParams(audioInParameters);
+                FftModule?.ReceiveAudioInParams(audioInParameters);
+                NoteDatas = NoteDataFactory.NaturalNotes(audioInParameters);
+            }
+        }
+
+        #endregion
+
+        public List<IDisposable> Disposables { get; set; } = new List<IDisposable>();
+
+        public void DisposeAll()
+        {
+            foreach(IDisposable disposable in Disposables)
+            {
+                disposable.Dispose();
+            }
+        }
+
+
     }
 }

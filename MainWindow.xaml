@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Tong" Width="1440" Height="810" WindowStyle="None" ResizeMode="NoResize"
+        Title="Resin" Width="1440" Height="810" WindowStyle="None" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" WindowState="Maximized" SizeChanged="MainWindow_SizeChanged">
     <!-- MAIN GRID -->
     <Grid>
@@ -148,7 +148,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" Orientation="Vertical">
-                            <CheckBox x:Name="cbxPlaySines" Content="Play sines" Height="20" FontWeight="Bold" Click="cbxPlaySines_Click" Checked="cbxPlaySines_Checked" />
+                            <CheckBox x:Name="cbxPlaySines" Content="Play sines" Height="20" FontWeight="Bold" Click="cbxPlaySines_Click" />
                             <CheckBox x:Name="cbxAudioIn" Content="Audio in" Height="20" FontWeight="Bold" Click="cbxAudioIn_Click" />
                             <CheckBox x:Name="cbxPlot" Content="Plot" Height="20" FontWeight="Bold" Checked="cbxPlot_Checked" Unchecked="cbxPlot_Unchecked" />
                             <CheckBox x:Name="cbxHeadtracker" Content="HeadTrack" Height="20" FontWeight="Bold" Click="cbxHeadtracker_Click" />

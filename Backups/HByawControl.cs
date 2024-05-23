@@ -1,10 +1,10 @@
-﻿using NeeqDMIs.Headtracking.NeeqHT;
-using NeeqDMIs.MIDI;
-using NeeqDMIs.Utils;
-using NeeqDMIs.Utils.ValueFilters;
+﻿using NITHdmis.Headtracking.NeeqHT;
+using NITHdmis.MIDI;
+using NITHdmis.Utils;
+using NITHdmis.Utils.ValueFilters;
 using System;
 using Resin.DMIBox;
-using NeeqDMIs.Filters.ValueFilters;
+using NITHdmis.Filters.ValueFilters;
 
 namespace Resin.Setups.Behaviors
 {

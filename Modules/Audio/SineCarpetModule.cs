@@ -1,8 +1,9 @@
 ﻿using CsvHelper;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-using NeeqDMIs.MicroLibrary;
-using NeeqDMIs.Music;
+using NITHdmis.Audio.Out;
+using NITHdmis.MicroLibrary;
+using NITHdmis.Music;
 using Resin.DataTypes;
 using Resin.DMIBox;
 using System;
@@ -10,30 +11,40 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Resin.Modules.Audio;
 
 namespace Resin.Modules.Audio
 {
-    public class SineCarpetModule
+    /// <summary>
+    /// A WaveSampleMaker which makes a sine wave carpet, with defined sine wave frequencies.
+    /// Includes a way to calibrate the sines carpet
+    /// </summary>
+    public class SineCarpetModule : AWaveSampleMaker
     {
-        public List<ISampleProvider> SampleProviders;
+        public List<ISampleProvider> SinesProviders;
         private const float CALIBRATION_INCREMENT = 0.05f;
-        private const int ENERGYCALIBRATION_INTERVAL = 700;
+        private const int ENERGYCALIBRATION_INTERVAL = 500;
         private const string saveCalibPath = "Calibration.csv";
+        private const float DEFAULT_GAIN_DIVIDER = 70f;
         private bool enabled = false;
         private MicroTimer energyCalibTimer;
 
-        private float masterVolume = 0.8f;
+        private float masterVolume;
+
         private float panning = 0;
+        private SignalGenerator muteSignalGenerator;
+        private WaveFormat waveFormat;
 
-        private WaveOutModule waveOutModule;
-
-        public SineCarpetModule(WaveOutModule waveOutModule)
+        private VolumeSampleProvider VolumeSampleProvider { get; set; }
+        public SineCarpetModule(ISampleMixer sampleMixer) : base(sampleMixer)
         {
-            this.waveOutModule = waveOutModule;
+            waveFormat = sampleMixer.GetWaveFormat();
+            muteSignalGenerator = new SignalGenerator(waveFormat.SampleRate, 1) { Gain = 0 };
+            //BuildChain();
         }
 
-        public float CalibGain { get; set; } = 0.8f;
+        /// <summary>
+        /// Setpoint for gain calibraton
+        /// </summary>
         public double CalibrationSetpoint { get; set; } = 0;
 
         public SignalGeneratorType CarpetSignalType { get; set; } = SignalGeneratorType.Sin;
@@ -44,12 +55,7 @@ namespace Resin.Modules.Audio
             set
             {
                 enabled = value;
-                switch (value)
-                {
-                    case true: StartSinesCarpet(); break;
-                    case false: waveOutModule.StopWaveOut(); break;
-                    default: break;
-                }
+                UpdateSinesAndSend();
             }
         }
 
@@ -61,13 +67,31 @@ namespace Resin.Modules.Audio
                 masterVolume = value;
                 if (Enabled)
                 {
-                    waveOutModule.StopWaveOut();
-                    StartSinesCarpet();
+                    UpdateSinesAndSend();
                 }
             }
         }
 
-        public MixingSampleProvider MixProvider { get; set; }
+        private void BuildChain()
+        {
+            // MixProvider must contain at least one sample.
+            if (SinesProviders.Count == 0)
+            {
+                SinesProviders.Add(muteSignalGenerator);
+            }
+
+            MixProvider = new MixingSampleProvider(SinesProviders);
+
+            SinesProviders.Remove(muteSignalGenerator);
+
+            PanProvider = new PanningSampleProvider(MixProvider);
+            PanProvider.Pan = Panning;
+            VolumeSampleProvider = new VolumeSampleProvider(PanProvider);
+            VolumeSampleProvider.Volume = masterVolume;
+            
+        }
+
+        private MixingSampleProvider MixProvider { get; set; }
 
         public float Panning
         {
@@ -77,28 +101,43 @@ namespace Resin.Modules.Audio
                 panning = value;
                 if (Enabled)
                 {
-                    waveOutModule.StopWaveOut();
+                    UpdateSinesAndSend();
                 }
             }
         }
 
-        public PanningSampleProvider PanProvider { get; set; }
+        private PanningSampleProvider PanProvider { get; set; }
         public MidiNotes SingleNoteToCalibrate { get; set; } = MidiNotes.NaN;
 
+        /// <summary>
+        /// Load sine wave gains calibration data from a local file
+        /// </summary>
         public void LoadCalibration()
         {
             using (var reader = new StreamReader(saveCalibPath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
                 R.DMIbox.NoteDatas.Clear();
-                var ands = csv.GetRecords<NoteData>();
-                R.DMIbox.NoteDatas.AddRange(from NoteData and in ands
+                var ands = csv.GetRecords<ResinNoteData>();
+                R.DMIbox.NoteDatas.AddRange(from ResinNoteData and in ands
                                             select and);
             }
 
             R.DMIbox.NoteKeysModule.SetSlidersToBeUpdated();
         }
 
+        /// <summary>
+        /// What happens when audio device is changed: do nothing. This module won't update anything, and doesn't care about device changes.
+        /// </summary>
+        public override void ReceiveDeviceChanged()
+        {
+            waveFormat = sampleMixer.GetWaveFormat();
+            UpdateSinesAndSend();
+        }
+
+        /// <summary>
+        /// Saves the data of the calibrated sines.
+        /// </summary>
         public void SaveCalibration()
         {
             using (var writer = new StreamWriter(saveCalibPath))
@@ -108,6 +147,10 @@ namespace Resin.Modules.Audio
             }
         }
 
+        /// <summary>
+        /// Command to initialize the sines'energy calibration process, to flatten the energy response
+        /// </summary>
+        /// <param name="intervalMilliseconds"></param>
         public void StartEnergyCalibration(int intervalMilliseconds = ENERGYCALIBRATION_INTERVAL)
         {
             energyCalibTimer = new MicroTimer(intervalMilliseconds * 1000);
@@ -116,19 +159,26 @@ namespace Resin.Modules.Audio
             energyCalibTimer.Start();
         }
 
+        /// <summary>
+        /// Stops the gain calibration process
+        /// </summary>
         public void StopEnergyCalibration()
         {
             energyCalibTimer.Stop();
             Enabled = false;
         }
 
-        public void UpdateCarpetSampleProviders()
+        /// <summary>
+        /// Updates the Sample Providers and notify the SampleMixer if enabled
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void UpdateSinesAndSend()
         {
-            SampleProviders = new List<ISampleProvider>();
+            SinesProviders = new List<ISampleProvider>();
 
             var pn = R.DMIbox.GetPlayableNoteDatas();
 
-            foreach (NoteData noteData in pn)
+            foreach (ResinNoteData noteData in pn)
             {
                 double freq = 0;
                 double gain = 0;      // Gain is reduced with number of notes increase to avoid distortion
@@ -139,46 +189,50 @@ namespace Resin.Modules.Audio
                 }
                 catch
                 {
-                    throw new Exception("AudioModule exception: unable to get the frequency for the note " + noteData.MidiNote.ToStandardString() + ".");
+#pragma warning disable S112 // General exceptions should never be thrown
+                    throw new Exception(this.GetType().Name + " exception: unable to get the frequency for the note " + noteData.MidiNote.ToStandardString() + ".");
+#pragma warning restore S112 // General exceptions should never be thrown
                 }
 
                 gain = noteData.Out_Gain;
 
-                SampleProviders.Add(new SignalGenerator(waveOutModule.WaveOutSampleRate, 1) { Frequency = freq, Gain = gain / 70f, Type = CarpetSignalType });
+                SinesProviders.Add(new SignalGenerator(waveFormat.SampleRate, 1) { Frequency = freq, Gain = gain / DEFAULT_GAIN_DIVIDER, Type = CarpetSignalType });
             }
 
-            MixProvider = new MixingSampleProvider(SampleProviders);
-            PanProvider = new PanningSampleProvider(MixProvider);
-            PanProvider.Pan = Panning;
+            BuildChain();
+            candidateSampleProvider = VolumeSampleProvider;
+
+            if (enabled)
+            {
+                NotifySampleChanged();
+            }
         }
 
-        public void UpdateGain(MidiNotes note, double gain)
+        /// <summary>
+        /// Updates the gain of the sine corresponding to a given MidiNote
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="gain"></param>
+        public void UpdateNoteGain(MidiNotes note, double gain)
         {
-            foreach (NoteData and in R.DMIbox.NoteDatas)
+            foreach (ResinNoteData and in R.DMIbox.NoteDatas)
             {
                 if (and.MidiNote == note)
                 {
                     and.Out_Gain = gain;
                 }
             }
-            if (Enabled)
-            {
-                waveOutModule.StopWaveOut();
-                StartSinesCarpet();
-            }
+            UpdateSinesAndSend();
         }
 
-        public void UpdatePlayableNotes()
-        {
-            if (Enabled)
-            {
-                StartSinesCarpet();
-            }
-        }
-
+        /// <summary>
+        /// Energy calibration timer. At each cycle, updates the gain data, and starts the sample updating process
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EnergyCalibTimer_MicroTimerElapsed(object sender, MicroTimerEventArgs e)
         {
-            foreach (NoteData and in R.DMIbox.NoteDatas)
+            foreach (ResinNoteData and in R.DMIbox.NoteDatas)
             {
                 if (and.IsPlayable)
                 {
@@ -200,37 +254,9 @@ namespace Resin.Modules.Audio
                 }
             }
 
-            UpdateCarpetSampleProviders();
-            waveOutModule.StopWaveOut();
-            waveOutModule.WaveOutEvent.Init(new SampleToWaveProvider(PanProvider));
-            waveOutModule.WaveOutEvent.Play();
+            UpdateSinesAndSend();
 
             R.DMIbox.NoteKeysModule.SetSlidersToBeUpdated();
-        }
-
-        private float GetStandardGain()
-        {
-            return MasterVolume / R.DMIbox.GetPlayableNoteDatas().Count;
-        }
-
-        private void StartSinesCarpet()
-        {
-            var pn = R.DMIbox.GetPlayableNoteDatas();
-
-            if (pn.Count > 0)
-            {
-                waveOutModule.WaveOutEvent?.Stop();
-
-                waveOutModule.InitializeWaveOut();
-                UpdateCarpetSampleProviders();
-
-                waveOutModule.WaveOutEvent.Init(new SampleToWaveProvider(PanProvider));
-                waveOutModule.WaveOutEvent.Play();
-            }
-            else
-            {
-                waveOutModule.WaveOutEvent?.Stop();
-            }
         }
     }
 }

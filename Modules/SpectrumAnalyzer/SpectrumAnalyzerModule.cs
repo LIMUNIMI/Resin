@@ -1,4 +1,4 @@
-﻿using NeeqDMIs.Filters.ValueFilters;
+﻿using NITHdmis.Filters.ValueFilters;
 using Resin.DMIBox;
 using Resin.Modules.FFT;
 using System;

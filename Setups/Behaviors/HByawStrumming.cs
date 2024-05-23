@@ -1,4 +1,4 @@
-﻿using NeeqDMIs.Headtracking.NeeqHT;
+﻿using NITHdmis.Headtracking.NeeqHT;
 using Resin.DMIBox;
 
 namespace Resin.Setups.Behaviors

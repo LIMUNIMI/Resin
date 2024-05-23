@@ -1,4 +1,4 @@
-﻿using NeeqDMIs.Music;
+﻿using NITHdmis.Music;
 using Resin.DataTypes;
 using Resin.DMIBox;
 using System.Collections.Generic;
@@ -147,7 +147,7 @@ namespace Resin.Modules.NotesGrid
 
         public void UpdateAllGainSliders()
         {
-            foreach (NoteData nd in R.DMIbox.NoteDatas)
+            foreach (ResinNoteData nd in R.DMIbox.NoteDatas)
             {
                 foreach (KeySlider slider in KeySliders)
                 {
@@ -162,7 +162,7 @@ namespace Resin.Modules.NotesGrid
         public void UpdateGainSlider(object sender)
         {
             KeySlider slider = (KeySlider)sender;
-            R.DMIbox.SineCarpetModule.UpdateGain(slider.KeyLabel.Note, slider.Value);
+            R.DMIbox.SineCarpetModule.UpdateNoteGain(slider.KeyLabel.Note, slider.Value);
         }
 
         private static void UpdateCheckBox(object sender)
@@ -178,10 +178,10 @@ namespace Resin.Modules.NotesGrid
                 R.DMIbox.SetNote_NotPlayable(kcb.KeyLabel.Note);
             }
 
-            R.DMIbox.SineCarpetModule.UpdatePlayableNotes();
-            R.DMIbox.FFTplotModule.RemapCanvas();
+            R.DMIbox.SineCarpetModule.UpdateSinesAndSend();
+            R.DMIbox.FftPlotModule.RemapCanvas();
 
-            R.DMIbox.FFTplotModule.DrawPlayableNotesBins();
+            R.DMIbox.FftPlotModule.DrawPlayableNotesBins();
             R.DMIbox.SetBandPassToPlayableNotes();
         }
 

@@ -1,4 +1,4 @@
-﻿using NeeqDMIs.Utils;
+﻿using NITHdmis.Utils;
 using Resin.DataTypes;
 using Resin.DMIBox;
 using Resin.Modules.FFT;
@@ -27,7 +27,7 @@ namespace Resin.Modules.FFTplot
         private Canvas canvas;
         private SegmentMapper cnvMapX;
         private SegmentMapper cnvMapY;
-        private double maxDb = 1000f;
+        private double maxDb { get; set; } = 2000f;
 
         private NoteEnergiesDrawingModes noteEnergiesDrawingMode = NoteEnergiesDrawingModes.MoreEnergetic;
         private List<Line> noteEnergiesLines = new List<Line>();
@@ -81,13 +81,14 @@ namespace Resin.Modules.FFTplot
 
             playableNotesBinsLines.Clear();
 
-            foreach (NoteData nd in R.DMIbox.GetPlayableNoteDatas())
+            foreach (ResinNoteData nd in R.DMIbox.GetPlayableNoteDatas())
             {
                 noteLine = new Line();
                 noteLine.Stroke = noteLineBinBrush;
                 noteLine.StrokeThickness = NOTELINETHICKNESS;
 
                 double X = cnvMapX.Map(nd.In_CenterBin);
+                if (double.IsNaN(X)) { X = 0; }
                 noteLine.X1 = X;
                 noteLine.Y1 = canvas.ActualHeight;
                 noteLine.X2 = X;
@@ -126,7 +127,7 @@ namespace Resin.Modules.FFTplot
             int maxBin = 0;
             int minBin = 1000000000;
 
-            List<NoteData> playableNotes = R.DMIbox.GetPlayableNoteDatas();
+            List<ResinNoteData> playableNotes = R.DMIbox.GetPlayableNoteDatas();
 
             if (playableNotes.Count > 0)
             {
@@ -175,7 +176,7 @@ namespace Resin.Modules.FFTplot
 
             noteEnergiesLines.Clear();
 
-            foreach (NoteData nd in R.DMIbox.NoteDatas)
+            foreach (ResinNoteData nd in R.DMIbox.NoteDatas)
             {
                 if (nd.IsPlayable)
                 {

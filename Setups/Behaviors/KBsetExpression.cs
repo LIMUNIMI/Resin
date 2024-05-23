@@ -1,4 +1,4 @@
-﻿using NeeqDMIs.Keyboard;
+﻿using NITHdmis.Keyboard;
 using RawInputProcessor;
 using Resin.DMIBox;
 

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Resin.Modules.Audio;
 using System.Windows.Media;
-using Resin.DataTypes;
 
 namespace Resin.DMIBox
 {
@@ -19,11 +18,12 @@ namespace Resin.DMIBox
         #endregion Look and feel
 
         public static readonly TongControlModes DefaultControlMode = TongControlModes.Keyboard;
+        public static readonly int DEFAULT_WAVEOUT_RATE = 48_000;
+        internal static readonly int DEFAULT_WAVEOUT_CHANNELS = 2;
 
         #region DMIBox
 
-        private static ResinDMIBox dmiBox;
-        public static ResinDMIBox DMIbox { get => dmiBox; set => dmiBox = value; }
+        public static ResinDMIBox DMIbox { get; set; } = new ResinDMIBox();
 
         #endregion TongBox
 

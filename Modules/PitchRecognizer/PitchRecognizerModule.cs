@@ -1,4 +1,4 @@
-﻿using NeeqDMIs.Music;
+﻿using NITHdmis.Music;
 using System;
 using System.Collections.Generic;
 using Resin.DataTypes;
@@ -13,7 +13,7 @@ namespace Resin.Modules.PitchRecognizer
             MidiNotes result = MidiNotes.C4;
             int diff = 100000;
             int c;
-            foreach (NoteData nd in R.DMIbox.NoteDatas)
+            foreach (ResinNoteData nd in R.DMIbox.NoteDatas)
             {
                 if(nd.In_LowBin <= bin && nd.In_HighBin >= bin)
                 {
@@ -26,9 +26,9 @@ namespace Resin.Modules.PitchRecognizer
         public MidiNotes BinToMidiNoteOnPlayableList(int bin)
         {
             MidiNotes result = MidiNotes.C4;
-            int diff = 100000;
+            int diff = 1000000;
             int c;
-            foreach (NoteData nd in R.DMIbox.GetPlayableNoteDatas())
+            foreach (ResinNoteData nd in R.DMIbox.GetPlayableNoteDatas())
             {
                 if (nd.In_LowBin <= bin && nd.In_HighBin >= bin)
                 {

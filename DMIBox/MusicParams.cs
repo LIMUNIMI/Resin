@@ -1,5 +1,5 @@
-﻿using NeeqDMIs.MIDI;
-using NeeqDMIs.Music;
+﻿using NITHdmis.MIDI;
+using NITHdmis.Music;
 using System.Collections.Generic;
 
 namespace Resin.DMIBox

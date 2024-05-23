@@ -1,4 +1,4 @@
-﻿using NeeqDMIs.MIDI;
+﻿using NITHdmis.MIDI;
 
 namespace Resin.DMIBox
 {

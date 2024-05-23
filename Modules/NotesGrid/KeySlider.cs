@@ -28,9 +28,9 @@ namespace Resin.Modules.NotesGrid
             Maximum = MAXIMUMGAIN;
         }
 
-        protected override void OnThumbDragCompleted(DragCompletedEventArgs e)
+        protected override void OnValueChanged(double oldValue, double newValue)
         {
-            base.OnThumbDragCompleted(e);
+            base.OnValueChanged(oldValue, newValue);
             gridModule.UpdateGainSlider(this);
         }
     }

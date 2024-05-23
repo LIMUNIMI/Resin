@@ -1,5 +1,5 @@
 ﻿using NAudio.Wave;
-using NeeqDMIs.Music;
+using NITHdmis.Music;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,13 +40,9 @@ namespace Resin
             this.calibrationStatus = status;
         }
 
-        private void cbxPlaySines_Checked(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            R.DMIbox.FFTplotModule.UpdateFrame();
+            R.DMIbox.FftPlotModule.UpdateFrame();
             UpdateLabels();
             UpdateKeysGrid();
             UpdateCalibrationStatus();
@@ -75,7 +71,7 @@ namespace Resin
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (isSetup)
-                R.DMIbox.FFTplotModule.RemapCanvas();
+                R.DMIbox.FftPlotModule.RemapCanvas();
         }
 
         private void MidiPortChanged()
@@ -119,7 +115,7 @@ namespace Resin
         private void sldCalibSetpoint_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             R.DMIbox.SineCarpetModule.CalibrationSetpoint = sldCalibSetpoint.Value;
-            R.DMIbox.FFTplotModule.CalibrationSetpoint = R.DMIbox.SineCarpetModule.CalibrationSetpoint;
+            R.DMIbox.FftPlotModule.CalibrationSetpoint = R.DMIbox.SineCarpetModule.CalibrationSetpoint;
         }
 
         private void UpdateCalibrationStatus()
@@ -150,10 +146,10 @@ namespace Resin
         {
             if (monitorEnabled)
             {
-                lblPeakX.Content = R.DMIbox.FFTplotModule.PeakRealX.ToString();
-                lblPeakXsmooth.Content = R.DMIbox.FFTplotModule.PeakSmoothX.ToString();
-                lblPeakY.Content = R.DMIbox.FFTplotModule.PeakRealY.ToString();
-                lblNote.Content = R.DMIbox.PitchRecognizerModule.BinToAnyMidiNote(R.DMIbox.FFTplotModule.PeakRealX);
+                lblPeakX.Content = R.DMIbox.FftPlotModule.PeakRealX.ToString();
+                lblPeakXsmooth.Content = R.DMIbox.FftPlotModule.PeakSmoothX.ToString();
+                lblPeakY.Content = R.DMIbox.FftPlotModule.PeakRealY.ToString();
+                lblNote.Content = R.DMIbox.PitchRecognizerModule.BinToAnyMidiNote(R.DMIbox.FftPlotModule.PeakRealX);
 
                 lblHTpitch.Content = R.DMIbox.HeadTrackerModule.Data.CenteredPosition.Pitch.ToString();
                 lblHTyaw.Content = R.DMIbox.HeadTrackerModule.Data.CenteredPosition.Yaw.ToString();
@@ -189,7 +185,9 @@ namespace Resin
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            R.DMIbox.DisposeAll();
+            Environment.Exit(0);
+            //Application.Current.Shutdown();
         }
 
         private void btnHTportM_Click(object sender, RoutedEventArgs e)
@@ -282,14 +280,14 @@ namespace Resin
             switch (isCalibratingEnergy)
             {
                 case false:
-                    R.DMIbox.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.All;
+                    R.DMIbox.FftPlotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.All;
                     btnSineCal.Background = new SolidColorBrush(Colors.DarkRed);
                     isCalibratingEnergy = true;
                     R.DMIbox.SineCarpetModule.StartEnergyCalibration();
                     break;
 
                 case true:
-                    R.DMIbox.FFTplotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.MoreEnergetic;
+                    R.DMIbox.FftPlotModule.NoteEnergiesDrawingMode = Modules.FFTplot.FFTplotModule.NoteEnergiesDrawingModes.MoreEnergetic;
                     btnSineCal.Background = new SolidColorBrush(Colors.Black);
                     isCalibratingEnergy = false;
                     R.DMIbox.SineCarpetModule.StopEnergyCalibration();
@@ -390,10 +388,12 @@ namespace Resin
                 if ((bool)cbxPlaySines.IsChecked)
                 {
                     R.DMIbox.SineCarpetModule.Enabled = true;
+                    R.DMIbox.WaveOutMixerModule.Enabled = true;
                 }
                 else
                 {
                     R.DMIbox.SineCarpetModule.Enabled = false;
+                    R.DMIbox.WaveOutMixerModule.Enabled = false;
                 }
             }
         }
@@ -402,8 +402,8 @@ namespace Resin
         {
             if (isSetup)
             {
-                R.DMIbox.FFTplotModule.Enabled = true;
-                R.DMIbox.FFTplotModule.RemapCanvas();
+                R.DMIbox.FftPlotModule.Enabled = true;
+                R.DMIbox.FftPlotModule.RemapCanvas();
             }
         }
 
@@ -411,7 +411,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                R.DMIbox.FFTplotModule.Enabled = false;
+                R.DMIbox.FftPlotModule.Enabled = false;
             }
         }
 
@@ -431,7 +431,7 @@ namespace Resin
         {
             if (isSetup)
             {
-                R.DMIbox.SineCarpetModule.MasterVolume = lstWaveOutSoundCards.SelectedIndex;
+                R.DMIbox.WaveOutMixerModule.WaveOutDeviceIndex = lstWaveOutSoundCards.SelectedIndex;
             }
         }
 

@@ -1,18 +1,18 @@
-﻿using NeeqDMIs.MicroLibrary;
-using NeeqDMIs.Utils;
-using Resin.Modules.Audio;
+﻿using NITHdmis.Audio.In;
+using NITHdmis.MicroLibrary;
+using NITHdmis.Utils;
 using System;
 using System.Collections.Generic;
 
 namespace Resin.Modules.FFT
 {
-    public class FFTModule : IPcmDataReceiver
+    public class FFTModule : IPcmDataReceiver, IAudioInParamsListener
     {
-        private AudioInParameters audioFormatFft;
+        private AudioInParameters audioInParameters;
         private double[] FftDataFiltered;
         private double[] FftDataRaw;
         private MicroTimer FFTtimer;
-        private Int16[] zeroPaddedArray;
+        private short[] zeroPaddedArray;
 
         #region Interface
 
@@ -36,12 +36,12 @@ namespace Resin.Modules.FFT
         /// A module which performs all the FFT computations and draws the result in a canvas.
         /// </summary>
         /// <param name="canvas"> </param>
-        public FFTModule(AudioInParameters audioFormatFft, long period = 10000)
+        public FFTModule(AudioInParameters audioInParameters, long period = 10000)
         {
             FFTtimer = new MicroTimer();
             FFTtimer.Interval = period;
             FFTtimer.MicroTimerElapsed += FFTtimer_MicroTimerElapsed;
-            this.audioFormatFft = audioFormatFft;
+            this.audioInParameters = audioInParameters;
         }
 
         void IPcmDataReceiver.ReceivePCMData(short[] pcmData)
@@ -77,11 +77,11 @@ namespace Resin.Modules.FFT
             if (pcmData != null)
             {
                 // zeropadding the FFT data (Nick)
-                zeroPaddedArray = audioFormatFft.ZeroPad(pcmData);
+                zeroPaddedArray = audioInParameters.ZeroPad(pcmData);
 
                 // apply a Hamming window function as we load the FFT array then calculate the FFT
                 NAudio.Dsp.Complex[] fftFull = new NAudio.Dsp.Complex[zeroPaddedArray.Length];
-                for (int i = 0; i < audioFormatFft.FftPoints; i++)
+                for (int i = 0; i < audioInParameters.FftPoints; i++)
                     fftFull[i].X = (float)(zeroPaddedArray[i] * NAudio.Dsp.FastFourierTransform.HammingWindow(i, pcmData.Length));
                 NAudio.Dsp.FastFourierTransform.FFT(true, (int)Math.Log(zeroPaddedArray.Length, 2.0), fftFull);
 
@@ -108,6 +108,11 @@ namespace Resin.Modules.FFT
 
                 NotifyListeners();
             }
+        }
+
+        public void ReceiveAudioInParams(AudioInParameters audioInParameters)
+        {
+            this.audioInParameters = audioInParameters;
         }
     }
 }
